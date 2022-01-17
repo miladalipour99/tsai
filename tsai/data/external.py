@@ -179,15 +179,15 @@ def get_UCR_data(dsid, path='.', parent_dir='data/UCR', on_disk=True, mode='c', 
    ##     X_valid = np.transpose(np.stack(X_valid_, axis=-1), (0, 2, 1))
    ##     X_train, X_valid = match_seq_len(X_train, X_valid)
 
-        np.save(f'{full_tgt_dir}/X_train.npy', X_train)
-        np.save(f'{full_tgt_dir}/y_train.npy', y_train)
-        np.save(f'{full_tgt_dir}/X_valid.npy', X_valid)
-        np.save(f'{full_tgt_dir}/y_valid.npy', y_valid)
-        np.save(f'{full_tgt_dir}/X.npy', concat(X_train, X_valid))
-        np.save(f'{full_tgt_dir}/y.npy', concat(y_train, y_valid))
-        del X_train, X_valid, y_train, y_valid
-        delete_all_in_dir(full_tgt_dir, exception='.npy')
-        pv('...numpy arrays correctly saved', verbose)
+   ##     np.save(f'{full_tgt_dir}/X_train.npy', X_train)
+   ##     np.save(f'{full_tgt_dir}/y_train.npy', y_train)
+   ##     np.save(f'{full_tgt_dir}/X_valid.npy', X_valid)
+   ##     np.save(f'{full_tgt_dir}/y_valid.npy', y_valid)
+   ##     np.save(f'{full_tgt_dir}/X.npy', concat(X_train, X_valid))
+   ##     np.save(f'{full_tgt_dir}/y.npy', concat(y_train, y_valid))
+   ##     del X_train, X_valid, y_train, y_valid
+   ##     delete_all_in_dir(full_tgt_dir, exception='.npy')
+   ##     pv('...numpy arrays correctly saved', verbose)
 
     mmap_mode = mode if on_disk else None
     X_train = np.load(f'{full_tgt_dir}/X_train.npy', mmap_mode=mmap_mode)
