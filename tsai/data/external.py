@@ -213,8 +213,9 @@ def get_UCR_data(dsid, path='.', parent_dir='data/UCR', on_disk=True, mode='c', 
             print('y_valid:', y_valid.shape, '\n')
         return X_train, y_train, X_valid, y_valid
     else:
-        X = np.load(f'{full_tgt_dir}/X.npy', mmap_mode=mmap_mode)
-        y = np.load(f'{full_tgt_dir}/y.npy', mmap_mode=mmap_mode)
+        print('salam')
+        X = np.load('/content/data/UCR/LSST/X.npy', mmap_mode=mmap_mode)
+        y = np.load('/content/data/UCR/LSST/y.npy', mmap_mode=mmap_mode)
         splits = get_predefined_splits(X_train, X_valid)
         if Xdtype is not None:
             X = X.astype(Xdtype)
