@@ -137,47 +137,47 @@ len(UCR_list)
 # Cell
 def get_UCR_data(dsid, path='.', parent_dir='data/UCR', on_disk=True, mode='c', Xdtype='float32', ydtype=None, return_split=True, split_data=True,
                  force_download=False, verbose=False):
-    dsid_list = [ds for ds in UCR_list if ds.lower() == dsid.lower()]
-    assert len(dsid_list) > 0, f'{dsid} is not a UCR dataset'
-    dsid = dsid_list[0]
-    return_split = return_split and split_data # keep return_split for compatibility. It will be replaced by split_data
-    if dsid in ['InsectWingbeat']:
-        warnings.warn(f'Be aware that download of the {dsid} dataset is very slow!')
-    pv(f'Dataset: {dsid}', verbose)
-    full_parent_dir = Path(path)/parent_dir
-    full_tgt_dir = full_parent_dir/dsid
+   ## dsid_list = [ds for ds in UCR_list if ds.lower() == dsid.lower()]
+   ## assert len(dsid_list) > 0, f'{dsid} is not a UCR dataset'
+   ## dsid = dsid_list[0]
+   ## return_split = return_split and split_data # keep return_split for compatibility. It will be replaced by split_data
+   ## if dsid in ['InsectWingbeat']:
+   ##     warnings.warn(f'Be aware that download of the {dsid} dataset is very slow!')
+   ## pv(f'Dataset: {dsid}', verbose)
+   ## full_parent_dir = Path(path)/parent_dir
+   ## full_tgt_dir = full_parent_dir/dsid
 #     if not os.path.exists(full_tgt_dir): os.makedirs(full_tgt_dir)
-    full_tgt_dir.parent.mkdir(parents=True, exist_ok=True)
-    if force_download or not all([os.path.isfile(f'{full_tgt_dir}/{fn}.npy') for fn in ['X_train', 'X_valid', 'y_train', 'y_valid', 'X', 'y']]):
-        # Option A
-        src_website = 'http://www.timeseriesclassification.com/Downloads'
-        decompress_from_url(f'{src_website}/{dsid}.zip', target_dir=full_tgt_dir, verbose=verbose)
-        if dsid == 'DuckDuckGeese':
-            with zipfile.ZipFile(Path(f'{full_parent_dir}/DuckDuckGeese/DuckDuckGeese_ts.zip'), 'r') as zip_ref:
-                zip_ref.extractall(Path(parent_dir))
-        if not os.path.exists(full_tgt_dir/f'{dsid}_TRAIN.ts') or not os.path.exists(full_tgt_dir/f'{dsid}_TRAIN.ts') or \
-        Path(full_tgt_dir/f'{dsid}_TRAIN.ts').stat().st_size == 0 or Path(full_tgt_dir/f'{dsid}_TEST.ts').stat().st_size == 0:
-            print('It has not been possible to download the required files')
-            if return_split:
-                return None, None, None, None
-            else:
-                return None, None, None
+   ## full_tgt_dir.parent.mkdir(parents=True, exist_ok=True)
+   ## if force_download or not all([os.path.isfile(f'{full_tgt_dir}/{fn}.npy') for fn in ['X_train', 'X_valid', 'y_train', 'y_valid', 'X', 'y']]):
+   ##     # Option A
+   ##     src_website = 'http://www.timeseriesclassification.com/Downloads'
+   ##     decompress_from_url(f'{src_website}/{dsid}.zip', target_dir=full_tgt_dir, verbose=verbose)
+   ##     if dsid == 'DuckDuckGeese':
+   ##         with zipfile.ZipFile(Path(f'{full_parent_dir}/DuckDuckGeese/DuckDuckGeese_ts.zip'), 'r') as zip_ref:
+   ##             zip_ref.extractall(Path(parent_dir))
+   ##     if not os.path.exists(full_tgt_dir/f'{dsid}_TRAIN.ts') or not os.path.exists(full_tgt_dir/f'{dsid}_TRAIN.ts') or \
+   ##     Path(full_tgt_dir/f'{dsid}_TRAIN.ts').stat().st_size == 0 or Path(full_tgt_dir/f'{dsid}_TEST.ts').stat().st_size == 0:
+   ##         print('It has not been possible to download the required files')
+   ##         if return_split:
+   ##             return None, None, None, None
+   ##         else:
+   ##             return None, None, None
 
-        pv('loading ts files to dataframe...', verbose)
-        print(full_tgt_dir/f'{dsid}_TRAIN.ts')
-        print(full_tgt_dir/f'{dsid}_TEST.ts')
-        X_train_df, y_train = ts2df(full_tgt_dir/f'{dsid}_TRAIN.ts')
-        X_valid_df, y_valid = ts2df(full_tgt_dir/f'{dsid}_TEST.ts')
-        pv('...ts files loaded', verbose)
-        pv('preparing numpy arrays...', verbose)
-        X_train_ = []
-        X_valid_ = []
-        for i in progress_bar(range(X_train_df.shape[-1]), display=verbose, leave=False):
-            X_train_.append(stack_pad(X_train_df[f'dim_{i}'])) # stack arrays even if they have different lengths
-            X_valid_.append(stack_pad(X_valid_df[f'dim_{i}'])) # stack arrays even if they have different lengths
-        X_train = np.transpose(np.stack(X_train_, axis=-1), (0, 2, 1))
-        X_valid = np.transpose(np.stack(X_valid_, axis=-1), (0, 2, 1))
-        X_train, X_valid = match_seq_len(X_train, X_valid)
+   ##     pv('loading ts files to dataframe...', verbose)
+   ##     print(full_tgt_dir/f'{dsid}_TRAIN.ts')
+   ##     print(full_tgt_dir/f'{dsid}_TEST.ts')
+   ##     X_train_df, y_train = ts2df(full_tgt_dir/f'{dsid}_TRAIN.ts')
+   ##     X_valid_df, y_valid = ts2df(full_tgt_dir/f'{dsid}_TEST.ts')
+   ##     pv('...ts files loaded', verbose)
+   ##     pv('preparing numpy arrays...', verbose)
+   ##     X_train_ = []
+   ##     X_valid_ = []
+   ##     for i in progress_bar(range(X_train_df.shape[-1]), display=verbose, leave=False):
+   ##         X_train_.append(stack_pad(X_train_df[f'dim_{i}'])) # stack arrays even if they have different lengths
+   ##         X_valid_.append(stack_pad(X_valid_df[f'dim_{i}'])) # stack arrays even if they have different lengths
+   ##     X_train = np.transpose(np.stack(X_train_, axis=-1), (0, 2, 1))
+   ##     X_valid = np.transpose(np.stack(X_valid_, axis=-1), (0, 2, 1))
+   ##     X_train, X_valid = match_seq_len(X_train, X_valid)
 
         np.save(f'{full_tgt_dir}/X_train.npy', X_train)
         np.save(f'{full_tgt_dir}/y_train.npy', y_train)
