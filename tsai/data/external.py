@@ -190,10 +190,14 @@ def get_UCR_data(dsid, path='.', parent_dir='data/UCR', on_disk=True, mode='c', 
    ##     pv('...numpy arrays correctly saved', verbose)
 
     mmap_mode = mode if on_disk else None
-    X_train = np.load(f'{full_tgt_dir}/X_train.npy', mmap_mode=mmap_mode)
-    y_train = np.load(f'{full_tgt_dir}/y_train.npy', mmap_mode=mmap_mode)
-    X_valid = np.load(f'{full_tgt_dir}/X_valid.npy', mmap_mode=mmap_mode)
-    y_valid = np.load(f'{full_tgt_dir}/y_valid.npy', mmap_mode=mmap_mode)
+   ## X_train = np.load(f'{full_tgt_dir}/X_train.npy', mmap_mode=mmap_mode)
+   ## y_train = np.load(f'{full_tgt_dir}/y_train.npy', mmap_mode=mmap_mode)
+   ## X_valid = np.load(f'{full_tgt_dir}/X_valid.npy', mmap_mode=mmap_mode)
+   ## y_valid = np.load(f'{full_tgt_dir}/y_valid.npy', mmap_mode=mmap_mode)
+    X_train = np.load('/content/data/UCR/LSST/X_train.npy', mmap_mode=mmap_mode)
+    y_train = np.load('/content/data/UCR/LSST/y_train.npy', mmap_mode=mmap_mode)
+    X_valid = np.load('/content/data/UCR/LSST/X_valid.npy', mmap_mode=mmap_mode)
+    y_valid = np.load('/content/data/UCR/LSST/y_valid.npy', mmap_mode=mmap_mode)
 
     if return_split:
         if Xdtype is not None:
