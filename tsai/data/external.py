@@ -164,6 +164,8 @@ def get_UCR_data(dsid, path='.', parent_dir='data/UCR', on_disk=True, mode='c', 
                 return None, None, None
 
         pv('loading ts files to dataframe...', verbose)
+        print(full_tgt_dir/f'{dsid}_TRAIN.ts')
+        print(full_tgt_dir/f'{dsid}_TEST.ts')
         X_train_df, y_train = ts2df(full_tgt_dir/f'{dsid}_TRAIN.ts')
         X_valid_df, y_valid = ts2df(full_tgt_dir/f'{dsid}_TEST.ts')
         pv('...ts files loaded', verbose)
